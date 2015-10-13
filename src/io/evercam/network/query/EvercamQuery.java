@@ -193,8 +193,16 @@ public class EvercamQuery
 				}
 			}
 			
-			String username = defaults.getAuth(Auth.TYPE_BASIC).getUsername();
-			String password = defaults.getAuth(Auth.TYPE_BASIC).getPassword();
+			Auth auth = defaults.getAuth(Auth.TYPE_BASIC);
+			String username = "";
+			String password = "";
+			
+			if(auth != null)
+			{
+				username = defaults.getAuth(Auth.TYPE_BASIC).getUsername();
+				password = defaults.getAuth(Auth.TYPE_BASIC).getPassword();
+			}
+			
 			String jpgUrl = defaults.getJpgURL();
 			String h264Url = defaults.getH264URL();
 			
