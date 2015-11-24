@@ -12,14 +12,10 @@ import org.json.JSONObject;
 /**
  * The serializable camera object returned from discovery.
  */
-public class DiscoveredCamera implements Serializable
+public class DiscoveredCamera extends Device implements Serializable
 {
 	private static final long serialVersionUID = 2100241933714349000L;
-	private Integer id;
-	private String ip = "";
 	private String name = "";
-	private String externalIp = "";
-	private String mac = "";
 	private String vendor = "";
 	private String model = "";
 	private int upnp = 0; // 1: yes 0:no
@@ -52,12 +48,7 @@ public class DiscoveredCamera implements Serializable
 
 	public DiscoveredCamera(String ip)
 	{
-		this.ip = ip;
-	}
-
-	public String getIP()
-	{
-		return ip;
+		super(ip);
 	}
 
 	public String getName()
@@ -65,39 +56,14 @@ public class DiscoveredCamera implements Serializable
 		return name;
 	}
 
-	public String getExternalIp()
-	{
-		return externalIp;
-	}
-
 	public String getVendor()
 	{
 		return vendor;
 	}
 
-	public void setIP(String ip)
-	{
-		this.ip = ip;
-	}
-
 	public void setName(String name)
 	{
 		this.name = name;
-	}
-
-	public void setExternalIp(String externalIp)
-	{
-		this.externalIp = externalIp;
-	}
-
-	public String getMAC()
-	{
-		return mac;
-	}
-
-	public void setMAC(String mac)
-	{
-		this.mac = mac;
 	}
 
 	public void setVendor(String vendor)
@@ -283,7 +249,7 @@ public class DiscoveredCamera implements Serializable
 	@Override
 	public String toString()
 	{
-		return "Camera [id=" + id + ", ip=" + ip + ", name=" + name + ", externalIp=" + externalIp
+		return "Camera [ip=" + ip + ", name=" + name + ", externalIp=" + externalIp
 				+ ", mac=" + mac + ", vendor=" + vendor + ",model=" + model + ",bonjour=" + bonjour
 				+ ",upnp=" + upnp + ",onvif=" + onvif + ",http=" + http + ",rtsp=" + rtsp
 				+ ",https=" + https + ",ftp=" + ftp + ",ssh=" + ssh + ",extrtsp=" + extrtsp

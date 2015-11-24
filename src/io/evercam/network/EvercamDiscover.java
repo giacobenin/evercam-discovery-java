@@ -1,6 +1,7 @@
 package io.evercam.network;
 
 import io.evercam.Vendor;
+import io.evercam.network.discovery.Device;
 import io.evercam.network.discovery.DiscoveredCamera;
 import io.evercam.network.discovery.IpScan;
 import io.evercam.network.discovery.MacAddress;
@@ -29,6 +30,7 @@ public class EvercamDiscover
 																				// table
 	private ArrayList<DiscoveredCamera> cameraList = new ArrayList<DiscoveredCamera>();
 	private ArrayList<DiscoveredCamera> onvifDeviceList = new ArrayList<DiscoveredCamera>();
+	private ArrayList<Device> nonCameraDeviceList = new ArrayList<Device>();
 	private boolean upnpDone = false;
 	private boolean natDone = false;
 	private int countDone = 0;
@@ -162,6 +164,17 @@ public class EvercamDiscover
 					public void onFinished()
 					{
 						countDone++;
+					}
+
+					@Override
+					public void onNonCameraDeviceFound(Device device)
+					{
+						device.setExternalIp(externalIp);
+						
+						synchronized (nonCameraDeviceList)
+						{
+							nonCameraDeviceList.add(device);
+						}
 					}
 				});
 			}

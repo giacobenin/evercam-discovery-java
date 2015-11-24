@@ -1,11 +1,13 @@
 package io.evercam.network;
 
 import io.evercam.Vendor;
+import io.evercam.network.discovery.Device;
 import io.evercam.network.discovery.DiscoveredCamera;
 import io.evercam.network.discovery.MacAddress;
 import io.evercam.network.discovery.Port;
 import io.evercam.network.discovery.PortScan;
 import io.evercam.network.query.EvercamQuery;
+import io.evercam.network.query.PublicVendor;
 
 import java.util.ArrayList;
 
@@ -53,6 +55,13 @@ public abstract class IdentifyCameraRunnable implements Runnable
 						onCameraFound(camera, vendor);
 					}
 				}
+				else 
+				{
+					Device device = new Device(ip);
+					device.setMAC(macAddress);
+					device.setPublicVendor(PublicVendor.getByMac(macAddress).getCompany());
+					onNonCameraDeviceFound(device);
+				}
 			}
 		}
 		catch (Exception e)
@@ -69,6 +78,8 @@ public abstract class IdentifyCameraRunnable implements Runnable
 	}
 
 	public abstract void onCameraFound(DiscoveredCamera discoveredCamera, Vendor vendor);
+	
+	public abstract void onNonCameraDeviceFound(Device device);
 
 	public abstract void onFinished();
 }

@@ -16,4 +16,5 @@ public class Constants
 	public static final String EMPTY_MAC = "00:00:00:00:00:00";
 
 	public static final String URL_GET_EXTERNAL_ADDR = "http://ipinfo.io/ip";
+	public static final String URL_API_PUBLIC_MAC_VENDOR = "http://www.macvendorlookup.com/api/v2/";
 }
