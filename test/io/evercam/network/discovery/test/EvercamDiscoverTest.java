@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import io.evercam.network.EvercamDiscover;
 import io.evercam.network.Main;
+import io.evercam.network.discovery.Device;
 import io.evercam.network.discovery.DiscoveredCamera;
 
 import org.junit.Test;
@@ -67,7 +68,8 @@ public class EvercamDiscoverTest
 	public void testPrintAsJson()
 	{
 		ArrayList<DiscoveredCamera> cameraList = new ArrayList<>();
-		Main.printAsJson(cameraList);
+		ArrayList<Device> nonCameraList = new ArrayList<>();
+		Main.printAsJson(cameraList, nonCameraList);
 		assertTrue(true);
 	}
 }

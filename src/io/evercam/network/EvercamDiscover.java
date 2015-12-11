@@ -12,8 +12,6 @@ import io.evercam.network.discovery.ScanResult;
 import io.evercam.network.discovery.UpnpDevice;
 
 import java.util.ArrayList;
-import java.util.IllegalFormatCodePointException;
-import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -65,7 +63,7 @@ public class EvercamDiscover
 	 * @return a list of discovered camera devices
 	 * @throws Exception
 	 */
-	public ArrayList<DiscoveredCamera> discoverAllLinux(ScanRange scanRange) throws Exception
+	public DiscoveryResult discoverAllLinux(ScanRange scanRange) throws Exception
 	{
 		pool = Executors.newFixedThreadPool(DEFAULT_FIXED_POOL);
 		// Request for external IP address
@@ -252,7 +250,7 @@ public class EvercamDiscover
 		//Query ARP table again if MAC address is still empty after merging
 		fillMacAddressIfNotExist(cameraList);
 
-		return cameraList;
+		return new DiscoveryResult(cameraList, nonCameraDeviceList);
 	}
 
 	public static DiscoveredCamera mergeSingleUpnpDeviceToCamera(UpnpDevice upnpDevice,

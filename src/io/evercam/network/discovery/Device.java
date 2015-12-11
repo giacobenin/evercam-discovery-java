@@ -1,8 +1,11 @@
 package io.evercam.network.discovery;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 
-public class Device implements Serializable
+import org.json.JSONObject;
+
+public class Device implements Serializable, DeviceInterface
 {
 	private static final long serialVersionUID = 1L;
 	protected String ip = "";
@@ -62,5 +65,15 @@ public class Device implements Serializable
 				+ ", publicVendor=" + publicVendor + "]";
 	}
 	
-	
+	public JSONObject toJsonObject()
+	{
+		LinkedHashMap<String, Object> jsonOrderedMap = new LinkedHashMap<String, Object>();
+
+		jsonOrderedMap.put("lan_ip", getIP());
+		jsonOrderedMap.put("mac_address", getMAC());
+		jsonOrderedMap.put("wan_ip", getExternalIp());
+		jsonOrderedMap.put("public_vendor", getPublicVendor());
+
+		return new JSONObject(jsonOrderedMap);
+	}
 }

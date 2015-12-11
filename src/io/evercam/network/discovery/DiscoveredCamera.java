@@ -12,7 +12,7 @@ import org.json.JSONObject;
 /**
  * The serializable camera object returned from discovery.
  */
-public class DiscoveredCamera extends Device implements Serializable
+public class DiscoveredCamera extends Device implements Serializable, DeviceInterface
 {
 	private static final long serialVersionUID = 2100241933714349000L;
 	private String name = "";

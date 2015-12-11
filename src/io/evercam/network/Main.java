@@ -1,5 +1,6 @@
 package io.evercam.network;
 
+import io.evercam.network.discovery.Device;
 import io.evercam.network.discovery.DiscoveredCamera;
 import io.evercam.network.discovery.NetworkInfo;
 import io.evercam.network.discovery.ScanRange;
@@ -70,13 +71,16 @@ public class Main
 		{
 			ScanRange scanRange = new ScanRange(ip, subnetMask);
 
-			ArrayList<DiscoveredCamera> cameraList = new EvercamDiscover().withDefaults(true)
+			DiscoveryResult discoveryResult = new EvercamDiscover().withDefaults(true)
 					.discoverAllLinux(scanRange);
+			
+			ArrayList<DiscoveredCamera> cameraList = discoveryResult.getCameras();
+			ArrayList<Device> nonCameraList = discoveryResult.getOtherDevices();
 
 			EvercamDiscover.printLogMessage("Scanning finished, found " + cameraList.size()
-					+ " cameras");
+					+ " cameras and " + nonCameraList.size() + " other devices.");
 
-			printAsJson(cameraList);
+			printAsJson(cameraList, nonCameraList);
 
 			EvercamDiscover.printLogMessage("On normal completion: 0");
 			System.exit(0);
@@ -92,19 +96,26 @@ public class Main
 		}
 	}
 
-	public static void printAsJson(ArrayList<DiscoveredCamera> cameraList)
+	public static void printAsJson(ArrayList<DiscoveredCamera> cameraList, ArrayList<Device> nonCameraList)
 	{
 		if (cameraList != null)
 		{
-			JSONArray jsonArray = new JSONArray();
+			JSONArray cameraJsonArray = new JSONArray();
+			JSONArray nonCameraJsonArray = new JSONArray();
 
 			for (DiscoveredCamera camera : cameraList)
 			{
-				JSONObject jsonObject = camera.toJsonObject();
-				jsonArray.put(jsonObject);
+				cameraJsonArray.put(camera.toJsonObject());
+			}
+			
+			for(Device device : nonCameraList)
+			{
+				nonCameraJsonArray.put(device.toJsonObject());
 			}
 
-			JSONObject arrayJsonObject = new JSONObject().put("cameras", jsonArray);
+			JSONObject arrayJsonObject = new JSONObject();
+			arrayJsonObject.put("cameras", cameraJsonArray);
+			arrayJsonObject.put("other_devices", nonCameraJsonArray);
 
 			System.out.println(arrayJsonObject.toString(4));
 		}
