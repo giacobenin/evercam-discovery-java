@@ -9,19 +9,16 @@ import io.evercam.network.discovery.UpnpDevice;
 import io.evercam.network.discovery.UpnpDiscovery;
 import org.junit.Test;
 
-public class UpnpDiscoveryTest
-{
-	@Test
-	public void testUpnpDiscovery() throws EvercamException
-	{
-		UpnpDiscovery upnpDiscovery = new UpnpDiscovery(null);
-		upnpDiscovery.discoverAll();
+public class UpnpDiscoveryTest {
+    @Test
+    public void testUpnpDiscovery() throws EvercamException {
+	UpnpDiscovery upnpDiscovery = new UpnpDiscovery(null);
+	upnpDiscovery.discoverAll();
 
-		ArrayList<UpnpDevice> deviceList = upnpDiscovery.getUpnpDevices();
-		for (UpnpDevice device : deviceList)
-		{
-			System.out.println(device.toString());
-		}
-		assertTrue(deviceList.size() > 0);
+	ArrayList<UpnpDevice> deviceList = upnpDiscovery.getUpnpDevices();
+	for (UpnpDevice device : deviceList) {
+	    System.out.println(device.toString());
 	}
+	assertTrue(deviceList.size() > 0);
+    }
 }

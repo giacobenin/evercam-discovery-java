@@ -6,8 +6,7 @@ import org.simpleframework.xml.Root;
 
 @Namespace(reference = "http://schemas.xmlsoap.org/ws/2004/08/addressing")
 @Root(strict = false)
-public class EndpointReference
-{
-	@Element
-	public String Address;
+public class EndpointReference {
+    @Element
+    public String Address;
 }

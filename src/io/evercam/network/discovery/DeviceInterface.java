@@ -1,6 +1,5 @@
 package io.evercam.network.discovery;
 
-public interface DeviceInterface
-{
+public interface DeviceInterface {
 
 }

@@ -11,75 +11,66 @@ import io.evercam.network.query.PublicVendor;
 
 import java.util.ArrayList;
 
-public abstract class IdentifyCameraRunnable implements Runnable
-{
-	private String ip;
+public abstract class IdentifyCameraRunnable implements Runnable {
+    private String ip;
 
-	public IdentifyCameraRunnable(String ip)
-	{
-		this.ip = ip;
+    public IdentifyCameraRunnable(String ip) {
+	this.ip = ip;
+    }
+
+    @Override
+    public void run() {
+	EvercamDiscover.printLogMessage("Identifying : " + ip);
+	try {
+	    String macAddress = MacAddress.getByIpLinux(ip);
+	    if (!macAddress.equals(Constants.EMPTY_MAC)) {
+		Vendor vendor = EvercamQuery.getCameraVendorByMac(macAddress);
+		if (vendor != null) {
+		    String vendorId = vendor.getId();
+		    if (!vendorId.isEmpty()) {
+			EvercamDiscover.printLogMessage(ip
+				+ " is identified as a camera, vendor is: "
+				+ vendorId);
+			// Then fill details discovered from IP scan
+			DiscoveredCamera camera = new DiscoveredCamera(ip);
+			camera.setMAC(macAddress);
+			camera.setVendor(vendorId);
+
+			// Start port scan
+			PortScan portScan = new PortScan();
+			portScan.start(ip);
+			ArrayList<Port> activePortList = portScan
+				.getActivePorts();
+
+			if (activePortList.size() > 0) {
+			    camera = camera.mergePorts(activePortList);
+			}
+
+			onCameraFound(camera, vendor);
+		    }
+		} else {
+		    Device device = new Device(ip);
+		    device.setMAC(macAddress);
+		    device.setPublicVendor(PublicVendor.getByMac(macAddress)
+			    .getCompany());
+		    onNonCameraDeviceFound(device);
+		}
+	    }
+	} catch (Exception e) {
+	    if (Constants.ENABLE_LOGGING) {
+		e.printStackTrace();
+	    }
 	}
 
-	@Override
-	public void run()
-	{
-		EvercamDiscover.printLogMessage("Identifying : " + ip);
-		try
-		{
-			String macAddress = MacAddress.getByIpLinux(ip);
-			if (!macAddress.equals(Constants.EMPTY_MAC))
-			{
-				Vendor vendor = EvercamQuery.getCameraVendorByMac(macAddress);
-				if (vendor != null)
-				{
-					String vendorId = vendor.getId();
-					if (!vendorId.isEmpty())
-					{
-						EvercamDiscover.printLogMessage(ip
-								+ " is identified as a camera, vendor is: " + vendorId);
-						// Then fill details discovered from IP scan
-						DiscoveredCamera camera = new DiscoveredCamera(ip);
-						camera.setMAC(macAddress);
-						camera.setVendor(vendorId);
+	EvercamDiscover.printLogMessage("Identification finished:  " + ip);
 
-						// Start port scan
-						PortScan portScan = new PortScan();
-						portScan.start(ip);
-						ArrayList<Port> activePortList = portScan.getActivePorts();
+	onFinished();
+    }
 
-						if (activePortList.size() > 0)
-						{
-							camera = camera.mergePorts(activePortList);
-						}
+    public abstract void onCameraFound(DiscoveredCamera discoveredCamera,
+	    Vendor vendor);
 
-						onCameraFound(camera, vendor);
-					}
-				}
-				else 
-				{
-					Device device = new Device(ip);
-					device.setMAC(macAddress);
-					device.setPublicVendor(PublicVendor.getByMac(macAddress).getCompany());
-					onNonCameraDeviceFound(device);
-				}
-			}
-		}
-		catch (Exception e)
-		{
-			if (Constants.ENABLE_LOGGING)
-			{
-				e.printStackTrace();
-			}
-		}
-		
-		EvercamDiscover.printLogMessage("Identification finished:  " + ip);
+    public abstract void onNonCameraDeviceFound(Device device);
 
-		onFinished();
-	}
-
-	public abstract void onCameraFound(DiscoveredCamera discoveredCamera, Vendor vendor);
-	
-	public abstract void onNonCameraDeviceFound(Device device);
-
-	public abstract void onFinished();
+    public abstract void onFinished();
 }

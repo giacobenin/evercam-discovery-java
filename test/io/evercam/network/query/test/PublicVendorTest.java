@@ -5,11 +5,10 @@ import io.evercam.network.query.PublicVendor;
 
 import org.junit.Test;
 
-public class PublicVendorTest
-{
-	@Test
-	public void testGetPublicVendor()
-	{
-		assertEquals("Samsung Electonics Digital Video System Division", PublicVendor.getByMac("00:16:6C").getCompany());
-	}
+public class PublicVendorTest {
+    @Test
+    public void testGetPublicVendor() {
+	assertEquals("Samsung Electonics Digital Video System Division",
+		PublicVendor.getByMac("00:16:6C").getCompany());
+    }
 }

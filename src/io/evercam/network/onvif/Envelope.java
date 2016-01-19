@@ -5,6 +5,5 @@ import org.simpleframework.xml.Root;
 
 @Namespace(reference = "http://www.w3.org/2003/05/soap-envelope")
 @Root(strict = false)
-public class Envelope
-{
+public class Envelope {
 }
