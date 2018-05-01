@@ -30,21 +30,22 @@ public class Main {
             if (argsArray.contains("-v") || argsArray.contains("--verbose")) {
                 Constants.ENABLE_LOGGING = true;
             }
-
-            if (argsArray.contains(ARG_IP)
-                    && argsArray.contains(ARG_SUBNET_MASK)) {
+            if (argsArray.contains(ARG_IP)) {
                 int ipIndex = argsArray.indexOf(ARG_IP) + 1;
-                int subnetIndex = argsArray.indexOf(ARG_SUBNET_MASK) + 1;
-
                 ip = argsArray.get(ipIndex);
+            }
+            if(argsArray.contains(ARG_SUBNET_MASK)) {
+                int subnetIndex = argsArray.indexOf(ARG_SUBNET_MASK) + 1;
                 subnetMask = argsArray.get(subnetIndex);
             }
         }
 
-        if (ip.isEmpty())
+        if (ip.isEmpty()) {
             ip = NetworkInfo.getRouterIp();
-        if (subnetMask.isEmpty())
+        }
+        if (subnetMask.isEmpty()) {
             subnetMask = NetworkInfo.getSubnetMask();
+        }
 
         // String deviceIp = "";
         // String subnetMask = "";
@@ -60,8 +61,7 @@ public class Main {
         // {
         // // TODO: handle exception
         // }
-        EvercamDiscover.printLogMessage("Router IP address: " + ip
-                + " subnet mask: " + subnetMask);
+        EvercamDiscover.printLogMessage("Router IP address: " + ip + " subnet mask: " + subnetMask);
         EvercamDiscover.printLogMessage("Scanning...");
 
         try {
