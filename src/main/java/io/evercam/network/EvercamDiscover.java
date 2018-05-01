@@ -54,7 +54,6 @@ public class EvercamDiscover {
      * The wrapped method to scan for cameras in Android.
      *
      * @param scanRange the range of IP addresses to scan
-     * @param routerIp  gateway/router IP address
      * @return a list of discovered camera devices
      * @throws Exception
      */
@@ -370,8 +369,7 @@ public class EvercamDiscover {
                 try {
                     if (!scanRange.containIp(discoveredCamera.getIP())) {
                         EvercamDiscover
-                                .printLogMessage("Removing ONVIF device: "
-                                        + discoveredCamera.getIP());
+                                .printLogMessage("Removing ONVIF device: " + discoveredCamera.getIP() + " not in " + scanRange);
                         clonedList.remove(discoveredCamera);
                     }
                 } catch (Exception e) {
