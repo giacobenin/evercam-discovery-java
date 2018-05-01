@@ -1,8 +1,9 @@
 package io.evercam;
 
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,7 +79,8 @@ public abstract class API {
         ApiKeyPair userKeyPair = null;
 
         try {
-            DefaultHttpClient client = new DefaultHttpClient();
+            HttpClient client = HttpClientBuilder.create().build();
+            // DefaultHttpClient client = new DefaultHttpClient();
             String encodedPassword = URLEncoder.encode(password, "UTF-8");
             HttpGet get = new HttpGet(URL + "/users/" + username + "/credentials?password=" + encodedPassword);
             get.setHeader("Accept", "application/json");
