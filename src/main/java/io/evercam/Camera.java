@@ -5,11 +5,13 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -93,7 +95,7 @@ public class Camera extends EvercamObject {
     public static boolean delete(String cameraId) throws EvercamException {
         if (API.hasUserKeyPair()) {
             try {
-                DefaultHttpClient client = new DefaultHttpClient();
+                HttpClient client = HttpClientBuilder.create().build();
                 HttpDelete delete = new HttpDelete(URL + '/' + cameraId + '/' + "?api_key=" + API.getUserKeyPair()[0] + "&api_id=" + API.getUserKeyPair()[1]);
                 delete.setHeader("Content-type", "application/json");
                 delete.setHeader("Accept", "application/json");
@@ -135,7 +137,7 @@ public class Camera extends EvercamObject {
         if (API.hasUserKeyPair()) {
             try {
                 JSONObject cameraJSONObject = buildJSONObject(cameraDetail);
-                DefaultHttpClient client = new DefaultHttpClient();
+                HttpClient client = HttpClientBuilder.create().build();
                 HttpPatch patch = new HttpPatch(URL + '/' + cameraDetail.id);
                 patch.setHeader("Content-type", "application/json");
                 patch.setHeader("Accept", "application/json");
@@ -198,7 +200,7 @@ public class Camera extends EvercamObject {
      * @throws EvercamException
      */
     public static ArrayList<Camera> getAll(String userId, boolean includeShared, boolean includeThumbnail) throws EvercamException {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("include_shared", Boolean.toString(includeShared));
         map.put("thumbnail", Boolean.toString(includeThumbnail));
         if (userId != null) {
@@ -216,7 +218,7 @@ public class Camera extends EvercamObject {
      * @throws EvercamException If user unauthorized or error occurred with Evercam
      */
     public static ArrayList<Camera> getByIdSet(String idSetString) throws EvercamException {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("ids", idSetString);
         return getByUrl(URL, map);
     }
