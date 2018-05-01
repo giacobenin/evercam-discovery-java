@@ -72,7 +72,7 @@ public class EvercamDiscover {
             pool.execute(upnpRunnable);
 
             if (scanRange.getRouterIpString().equals(
-                    NetworkInfo.getLinuxRouterIp())) {
+                    NetworkInfo.getRouterIp())) {
                 // Start UPnP router discovery
                 printLogMessage("Discovering UPnP devices......");
                 pool.execute(new NatRunnable(scanRange.getRouterIpString()) {
