@@ -10,10 +10,10 @@ For any bugs and discussions, please use [Github Issues](https://github.com/ever
 
 Any questions or suggestions around Evercam, drop us a line: http://www.evercam.io/contact
 
-##Usage
+## Usage
 Directly add the jar file to the classpath, Java doc will be associated with it as well. (The default jar file does not contain dependencies)
 
-##Examples
+## Examples
 Scan local network, find camera devices with options of including camera thumbnail and defaults or not, and return all discovered camera details(IP address, internal & external HTTP & RTSP ports, MAC address, vendor, model, thumbmnail, default username, password and URLs), currently only work for Android.
 ```Java
 import io.evercam.network.*;
