@@ -10,6 +10,7 @@ Any questions or suggestions around Evercam, drop us a line: http://www.evercam.
 
 ## Build
 Build evercam-discovery jar file by `./gradlew build`.
+
 Build an executable jar file contaning all the dependencies by `./gradlew fatjar`.
 
 ## Usage
