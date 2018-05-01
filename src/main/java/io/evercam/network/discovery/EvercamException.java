@@ -7,6 +7,6 @@ public class EvercamException extends Exception {
     protected static final String MSG_UPNP_NOT_STARTED = "Please launch UPnP discovery first";
 
     public EvercamException(String message) {
-	super(message);
+        super(message);
     }
 }

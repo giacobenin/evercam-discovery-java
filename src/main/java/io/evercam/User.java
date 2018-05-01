@@ -12,14 +12,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class User extends EvercamObject
-{
+public class User extends EvercamObject {
 
     private static String URL = API.URL + "users";
 
 
-    User(JSONObject userJSONObject)
-    {
+    User(JSONObject userJSONObject) {
         this.jsonObject = userJSONObject;
     }
 
@@ -28,13 +26,10 @@ public class User extends EvercamObject
      *
      * @throws EvercamException
      */
-    public String getCountry() throws EvercamException
-    {
-        try
-        {
+    public String getCountry() throws EvercamException {
+        try {
             return jsonObject.getString("country");
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             throw new EvercamException(e);
         }
     }
@@ -44,13 +39,10 @@ public class User extends EvercamObject
      *
      * @throws EvercamException
      */
-    public String getId() throws EvercamException
-    {
-        try
-        {
+    public String getId() throws EvercamException {
+        try {
             return jsonObject.getString("id");
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             throw new EvercamException(e);
         }
     }
@@ -60,13 +52,10 @@ public class User extends EvercamObject
      *
      * @throws EvercamException
      */
-    public String getEmail() throws EvercamException
-    {
-        try
-        {
+    public String getEmail() throws EvercamException {
+        try {
             return jsonObject.getString("email");
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             throw new EvercamException(e);
         }
     }
@@ -74,21 +63,18 @@ public class User extends EvercamObject
     /**
      * Return last name of the user.
      */
-    public String getLastName()
-    {
+    public String getLastName() {
         return jsonObject.getString("lastname");
     }
 
     /**
      * Return first name of the user.
      */
-    public String getFirstName()
-    {
+    public String getFirstName() {
         return jsonObject.getString("firstname");
     }
 
-    public String getFullName()
-    {
+    public String getFullName() {
         return getFirstName() + " " + getLastName();
     }
 
@@ -97,13 +83,10 @@ public class User extends EvercamObject
      *
      * @throws EvercamException
      */
-    public String getUsername() throws EvercamException
-    {
-        try
-        {
+    public String getUsername() throws EvercamException {
+        try {
             return jsonObject.getString("username");
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             throw new EvercamException(e);
         }
     }
@@ -114,41 +97,27 @@ public class User extends EvercamObject
      * @param id unique Evercam username or Email address of the user.
      * @throws EvercamException if no user API key pair added
      */
-    public User(String id) throws EvercamException
-    {
-        if (API.hasUserKeyPair())
-        {
-            try
-            {
+    public User(String id) throws EvercamException {
+        if (API.hasUserKeyPair()) {
+            try {
                 HttpResponse<JsonNode> response = Unirest.get(URL + "/" + id).queryString(API.userKeyPairMap()).header
                         ("accept", "application/json").asJson();
-                if (response.getStatus() == CODE_OK)
-                {
+                if (response.getStatus() == CODE_OK) {
                     JSONObject userJSONObject = response.getBody().getObject().getJSONArray("users").getJSONObject(0);
                     this.jsonObject = userJSONObject;
-                }
-                else if (response.getStatus() == CODE_FORBIDDEN || response.getStatus() == CODE_UNAUTHORISED)
-                {
+                } else if (response.getStatus() == CODE_FORBIDDEN || response.getStatus() == CODE_UNAUTHORISED) {
                     throw new EvercamException(EvercamException.MSG_INVALID_USER_KEY);
-                }
-                else if (response.getStatus() == CODE_NOT_FOUND)
-                {
+                } else if (response.getStatus() == CODE_NOT_FOUND) {
                     throw new EvercamException(response.getBody().getObject().getString("message"));
-                }
-                else
-                {
+                } else {
                     throw new EvercamException(response.getBody().toString());
                 }
-            } catch (UnirestException e)
-            {
+            } catch (UnirestException e) {
                 throw new EvercamException(e);
-            } catch (JSONException e)
-            {
+            } catch (JSONException e) {
                 throw new EvercamException(e);
             }
-        }
-        else
-        {
+        } else {
             throw new EvercamException(EvercamException.MSG_USER_API_KEY_REQUIRED);
         }
     }
@@ -159,44 +128,34 @@ public class User extends EvercamObject
      * @param userDetail user detail object with all details for the new user
      * @throws EvercamException
      */
-    public static User create(UserDetail userDetail) throws EvercamException
-    {
+    public static User create(UserDetail userDetail) throws EvercamException {
         User user = null;
         Map<String, Object> userMap = new HashMap<String, Object>();
         userMap.put("firstname", userDetail.getFirstname());
         userMap.put("lastname", userDetail.getLastname());
         userMap.put("email", userDetail.getEmail());
         userMap.put("username", userDetail.getUsername());
-        if(userDetail.hasCountryCode())
-        {
+        if (userDetail.hasCountryCode()) {
             userMap.put("country", userDetail.getCountryCode());
         }
 
         userMap.put("password", userDetail.getPassword());
 
-        try
-        {
+        try {
             HttpResponse<JsonNode> response = Unirest.post(URL).header("accept", "application/json").fields(userMap).asJson();
-            if (response.getStatus() == CODE_CREATE)
-            {
+            if (response.getStatus() == CODE_CREATE) {
                 JSONObject userJSONObject = response.getBody().getObject().getJSONArray("users").getJSONObject(0);
                 user = new User(userJSONObject);
-            }
-            else if (response.getStatus() == CODE_UNAUTHORISED || response.getStatus() == CODE_FORBIDDEN)
-            {
+            } else if (response.getStatus() == CODE_UNAUTHORISED || response.getStatus() == CODE_FORBIDDEN) {
                 throw new EvercamException(EvercamException.MSG_INVALID_USER_KEY);
-            }
-            else
-            {
+            } else {
                 //The HTTP error code could be 400, 409 etc.
                 ErrorResponse errorResponse = new ErrorResponse(response.getBody().getObject());
                 throw new EvercamException(errorResponse.getMessage());
             }
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             throw new EvercamException(e);
-        } catch (UnirestException e)
-        {
+        } catch (UnirestException e) {
             throw new EvercamException(e);
         }
 
@@ -211,31 +170,21 @@ public class User extends EvercamObject
      * @return true if the user account is successfully deleted
      * @throws EvercamException if user API key and id not specified
      */
-    public static boolean delete(String userId) throws EvercamException
-    {
-        if(API.hasUserKeyPair())
-        {
-            try
-            {
+    public static boolean delete(String userId) throws EvercamException {
+        if (API.hasUserKeyPair()) {
+            try {
                 HttpResponse<JsonNode> response = Unirest.delete(URL + '/' + userId).fields(API.userKeyPairMap())
-                    .asJson();
-                if(response.getStatus() == CODE_OK)
-                {
+                        .asJson();
+                if (response.getStatus() == CODE_OK) {
                     return true;
-                }
-                else
-                {
+                } else {
                     ErrorResponse errorResponse = new ErrorResponse(response.getBody().getObject());
                     throw new EvercamException(errorResponse.getMessage());
                 }
-            }
-            catch (UnirestException e)
-            {
+            } catch (UnirestException e) {
                 throw new EvercamException(e);
             }
-        }
-        else
-        {
+        } else {
             throw new EvercamException(EvercamException.MSG_USER_API_KEY_REQUIRED);
         }
     }

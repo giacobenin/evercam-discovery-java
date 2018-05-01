@@ -1,5 +1,4 @@
 package io.evercam;
 
-public interface CameraShareInterface
-{
+public interface CameraShareInterface {
 }

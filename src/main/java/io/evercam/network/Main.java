@@ -18,99 +18,98 @@ public class Main {
 
     /**
      * Discover all cameras in local network and print them in console
-     * 
-     * @param args
-     *            pass parameter -v/--verbose to enable verbose logging
+     *
+     * @param args pass parameter -v/--verbose to enable verbose logging
      */
     public static void main(String[] args) {
-	String ip = "";
-	String subnetMask = "";
+        String ip = "";
+        String subnetMask = "";
 
-	if (args.length > 0) {
-	    List<String> argsArray = Arrays.asList(args);
-	    if (argsArray.contains("-v") || argsArray.contains("--verbose")) {
-		Constants.ENABLE_LOGGING = true;
-	    }
+        if (args.length > 0) {
+            List<String> argsArray = Arrays.asList(args);
+            if (argsArray.contains("-v") || argsArray.contains("--verbose")) {
+                Constants.ENABLE_LOGGING = true;
+            }
 
-	    if (argsArray.contains(ARG_IP)
-		    && argsArray.contains(ARG_SUBNET_MASK)) {
-		int ipIndex = argsArray.indexOf(ARG_IP) + 1;
-		int subnetIndex = argsArray.indexOf(ARG_SUBNET_MASK) + 1;
+            if (argsArray.contains(ARG_IP)
+                    && argsArray.contains(ARG_SUBNET_MASK)) {
+                int ipIndex = argsArray.indexOf(ARG_IP) + 1;
+                int subnetIndex = argsArray.indexOf(ARG_SUBNET_MASK) + 1;
 
-		ip = argsArray.get(ipIndex);
-		subnetMask = argsArray.get(subnetIndex);
-	    }
-	}
+                ip = argsArray.get(ipIndex);
+                subnetMask = argsArray.get(subnetIndex);
+            }
+        }
 
-	if (ip.isEmpty())
-	    ip = NetworkInfo.getLinuxRouterIp();
-	if (subnetMask.isEmpty())
-	    subnetMask = NetworkInfo.getLinuxSubnetMask();
+        if (ip.isEmpty())
+            ip = NetworkInfo.getLinuxRouterIp();
+        if (subnetMask.isEmpty())
+            subnetMask = NetworkInfo.getLinuxSubnetMask();
 
-	// String deviceIp = "";
-	// String subnetMask = "";
-	// try
-	// {
-	// NetworkInterface networkInterface =
-	// NetworkInfo.getNetworkInterfaceByName("wlan0");
-	// deviceIp = NetworkInfo.getIpFromInterface(networkInterface);
-	// subnetMask =
-	// IpTranslator.cidrToMask(NetworkInfo.getCidrFromInterface(networkInterface));
-	// }
-	// catch (Exception e)
-	// {
-	// // TODO: handle exception
-	// }
-	EvercamDiscover.printLogMessage("Router IP address: " + ip
-		+ " subnet mask: " + subnetMask);
-	EvercamDiscover.printLogMessage("Scanning...");
+        // String deviceIp = "";
+        // String subnetMask = "";
+        // try
+        // {
+        // NetworkInterface networkInterface =
+        // NetworkInfo.getNetworkInterfaceByName("wlan0");
+        // deviceIp = NetworkInfo.getIpFromInterface(networkInterface);
+        // subnetMask =
+        // IpTranslator.cidrToMask(NetworkInfo.getCidrFromInterface(networkInterface));
+        // }
+        // catch (Exception e)
+        // {
+        // // TODO: handle exception
+        // }
+        EvercamDiscover.printLogMessage("Router IP address: " + ip
+                + " subnet mask: " + subnetMask);
+        EvercamDiscover.printLogMessage("Scanning...");
 
-	try {
-	    ScanRange scanRange = new ScanRange(ip, subnetMask);
+        try {
+            ScanRange scanRange = new ScanRange(ip, subnetMask);
 
-	    DiscoveryResult discoveryResult = new EvercamDiscover()
-		    .withDefaults(true).discoverAllLinux(scanRange);
+            DiscoveryResult discoveryResult = new EvercamDiscover()
+                    .withDefaults(true).discoverAllLinux(scanRange);
 
-	    ArrayList<DiscoveredCamera> cameraList = discoveryResult
-		    .getCameras();
-	    ArrayList<Device> nonCameraList = discoveryResult.getOtherDevices();
+            ArrayList<DiscoveredCamera> cameraList = discoveryResult
+                    .getCameras();
+            ArrayList<Device> nonCameraList = discoveryResult.getOtherDevices();
 
-	    EvercamDiscover.printLogMessage("Scanning finished, found "
-		    + cameraList.size() + " cameras and "
-		    + nonCameraList.size() + " other devices.");
+            EvercamDiscover.printLogMessage("Scanning finished, found "
+                    + cameraList.size() + " cameras and "
+                    + nonCameraList.size() + " other devices.");
 
-	    printAsJson(cameraList, nonCameraList);
+            printAsJson(cameraList, nonCameraList);
 
-	    EvercamDiscover.printLogMessage("On normal completion: 0");
-	    System.exit(0);
-	} catch (Exception e) {
-	    if (Constants.ENABLE_LOGGING) {
-		e.printStackTrace();
-	    }
-	    EvercamDiscover.printLogMessage("On error: 1");
-	    System.exit(1);
-	}
+            EvercamDiscover.printLogMessage("On normal completion: 0");
+            System.exit(0);
+        } catch (Exception e) {
+            if (Constants.ENABLE_LOGGING) {
+                e.printStackTrace();
+            }
+            EvercamDiscover.printLogMessage("On error: 1");
+            System.exit(1);
+        }
     }
 
     public static void printAsJson(ArrayList<DiscoveredCamera> cameraList,
-	    ArrayList<Device> nonCameraList) {
-	if (cameraList != null) {
-	    JSONArray cameraJsonArray = new JSONArray();
-	    JSONArray nonCameraJsonArray = new JSONArray();
+                                   ArrayList<Device> nonCameraList) {
+        if (cameraList != null) {
+            JSONArray cameraJsonArray = new JSONArray();
+            JSONArray nonCameraJsonArray = new JSONArray();
 
-	    for (DiscoveredCamera camera : cameraList) {
-		cameraJsonArray.put(camera.toJsonObject());
-	    }
+            for (DiscoveredCamera camera : cameraList) {
+                cameraJsonArray.put(camera.toJsonObject());
+            }
 
-	    for (Device device : nonCameraList) {
-		nonCameraJsonArray.put(device.toJsonObject());
-	    }
+            for (Device device : nonCameraList) {
+                nonCameraJsonArray.put(device.toJsonObject());
+            }
 
-	    JSONObject arrayJsonObject = new JSONObject();
-	    arrayJsonObject.put("cameras", cameraJsonArray);
-	    arrayJsonObject.put("other_devices", nonCameraJsonArray);
+            JSONObject arrayJsonObject = new JSONObject();
+            arrayJsonObject.put("cameras", cameraJsonArray);
+            arrayJsonObject.put("other_devices", nonCameraJsonArray);
 
-	    System.out.println(arrayJsonObject.toString(4));
-	}
+            System.out.println(arrayJsonObject.toString(4));
+        }
     }
 }

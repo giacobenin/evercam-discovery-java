@@ -10,16 +10,16 @@ public class DiscoveryResult {
     private ArrayList<Device> nonCameraDevices;
 
     public DiscoveryResult(ArrayList<DiscoveredCamera> cameras,
-	    ArrayList<Device> nonCameraDevices) {
-	this.cameras = cameras;
-	this.nonCameraDevices = nonCameraDevices;
+                           ArrayList<Device> nonCameraDevices) {
+        this.cameras = cameras;
+        this.nonCameraDevices = nonCameraDevices;
     }
 
     public ArrayList<DiscoveredCamera> getCameras() {
-	return cameras;
+        return cameras;
     }
 
     public ArrayList<Device> getOtherDevices() {
-	return nonCameraDevices;
+        return nonCameraDevices;
     }
 }

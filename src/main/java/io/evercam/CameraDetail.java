@@ -1,8 +1,7 @@
 package io.evercam;
 
 
-public class CameraDetail
-{
+public class CameraDetail {
     public String id;
     String name;
     Boolean isPublic;
@@ -30,8 +29,7 @@ public class CameraDetail
     String locationLatString;
     Boolean isDiscoverable;
 
-    public CameraDetail(PatchCameraBuilder builder)
-    {
+    public CameraDetail(PatchCameraBuilder builder) {
         id = builder.id;
         name = builder.name;
         isPublic = builder.isPublic;
@@ -60,8 +58,7 @@ public class CameraDetail
         isDiscoverable = builder.isDiscoverable;
     }
 
-    public CameraDetail(CameraBuilder builder)
-    {
+    public CameraDetail(CameraBuilder builder) {
         id = builder.id;
         name = builder.name;
         isPublic = builder.isPublic;
@@ -88,114 +85,92 @@ public class CameraDetail
         isDiscoverable = builder.isDiscoverable;
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public Boolean getIsPublic()
-    {
+    public Boolean getIsPublic() {
         return isPublic;
     }
 
-    public String getVendor()
-    {
+    public String getVendor() {
         return vendor;
     }
 
-    public String getModel()
-    {
+    public String getModel() {
         return model;
     }
 
-    public String getTimezone()
-    {
+    public String getTimezone() {
         return timezone;
     }
 
-    public String getMacAddress()
-    {
+    public String getMacAddress() {
         return macAddress;
     }
 
-    public String getJpgUrl()
-    {
+    public String getJpgUrl() {
         return jpgUrl;
     }
 
-    public String getH264Url()
-    {
+    public String getH264Url() {
         return h264Url;
     }
 
-    public String getInternalHost()
-    {
+    public String getInternalHost() {
         return internalHost;
     }
 
-    public int getInternalHttpPort()
-    {
+    public int getInternalHttpPort() {
         return internalHttpPort;
     }
 
-    public int getExternalHttpPort()
-    {
+    public int getExternalHttpPort() {
         return externalHttpPort;
     }
 
-    public String getExternalHost()
-    {
+    public String getExternalHost() {
         return externalHost;
     }
 
-    public int getInternalRtspPort()
-    {
+    public int getInternalRtspPort() {
         return internalRtspPort;
     }
 
-    public int getExternalRtspPort()
-    {
+    public int getExternalRtspPort() {
         return externalRtspPort;
     }
 
-    public String getCameraUsername()
-    {
+    public String getCameraUsername() {
         return cameraUsername;
     }
 
-    public String getCameraPassword()
-    {
+    public String getCameraPassword() {
         return cameraPassword;
     }
 
-    public float getLocationLng()
-    {
+    public float getLocationLng() {
         return locationLng;
     }
 
-    public float getLocationLat()
-    {
+    public float getLocationLat() {
         return locationLat;
     }
 
-    public Boolean getIsOnline()
-    {
+    public Boolean getIsOnline() {
         return isOnline;
     }
 
-    public Boolean getIsDiscoverable()
-    {
+    public Boolean getIsDiscoverable() {
         return isDiscoverable;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "CameraDetail{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +

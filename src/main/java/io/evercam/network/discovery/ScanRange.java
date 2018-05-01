@@ -8,11 +8,11 @@ public class ScanRange {
     private int cidr;
 
     public ScanRange(String routerIp, String subnetMask) throws Exception {
-	this.routerIp = IpTranslator.getUnsignedLongFromIp(routerIp);
-	this.routerIpString = routerIp;
+        this.routerIp = IpTranslator.getUnsignedLongFromIp(routerIp);
+        this.routerIpString = routerIp;
 
-	cidr = IpTranslator.maskIpToCidr(subnetMask);
-	setUpStartAndEnd(cidr);
+        cidr = IpTranslator.maskIpToCidr(subnetMask);
+        setUpStartAndEnd(cidr);
     }
 
     // TODO: Temporary disabled this because get cidr from interface is not
@@ -26,55 +26,55 @@ public class ScanRange {
     // }
 
     private void setUpStartAndEnd(int cidr) {
-	int shift = (32 - cidr);
-	if (cidr < 31) {
-	    scanStart = (routerIp >> shift << shift) + 1;
-	    scanEnd = (scanStart | ((1 << shift) - 1)) - 1;
-	} else {
-	    scanStart = (routerIp >> shift << shift);
-	    scanEnd = (scanStart | ((1 << shift) - 1));
-	}
+        int shift = (32 - cidr);
+        if (cidr < 31) {
+            scanStart = (routerIp >> shift << shift) + 1;
+            scanEnd = (scanStart | ((1 << shift) - 1)) - 1;
+        } else {
+            scanStart = (routerIp >> shift << shift);
+            scanEnd = (scanStart | ((1 << shift) - 1));
+        }
     }
 
     /**
      * @return true if the given IP is in this scan range
      */
     public boolean containIp(String ip) throws Exception {
-	int shift = (32 - cidr);
-	long ipLong = IpTranslator.getUnsignedLongFromIp(ip);
-	return scanStart == ((ipLong >> shift << shift) + 1);
+        int shift = (32 - cidr);
+        long ipLong = IpTranslator.getUnsignedLongFromIp(ip);
+        return scanStart == ((ipLong >> shift << shift) + 1);
     }
 
     public int size() {
-	return (int) (scanEnd - scanStart + 1);
+        return (int) (scanEnd - scanStart + 1);
     }
 
     protected long getRouterIp() {
-	return routerIp;
+        return routerIp;
     }
 
     public String getRouterIpString() {
-	return routerIpString;
+        return routerIpString;
     }
 
     protected long getScanStart() {
-	return scanStart;
+        return scanStart;
     }
 
     protected long getScanEnd() {
-	return scanEnd;
+        return scanEnd;
     }
 
     protected void setScanIp(long scanIp) {
-	this.routerIp = scanIp;
+        this.routerIp = scanIp;
     }
 
     protected void setScanStart(long scanStart) {
-	this.scanStart = scanStart;
+        this.scanStart = scanStart;
     }
 
     protected void setScanEnd(long scanEnd) {
-	this.scanEnd = scanEnd;
+        this.scanEnd = scanEnd;
     }
 
 }

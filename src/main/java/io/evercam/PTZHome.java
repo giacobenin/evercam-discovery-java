@@ -9,12 +9,10 @@ import java.io.InputStream;
 /**
  * Preset control that move camera to home position
  */
-public class PTZHome implements PTZControl
-{
+public class PTZHome implements PTZControl {
     private final String cameraId;
 
-    public PTZHome(String cameraId)
-    {
+    public PTZHome(String cameraId) {
         this.cameraId = cameraId;
     }
 
@@ -25,40 +23,27 @@ public class PTZHome implements PTZControl
      * @throws PTZException if any error occurred
      */
     @Override
-    public boolean move() throws PTZException
-    {
+    public boolean move() throws PTZException {
         return moveToHome();
     }
 
-    private boolean moveToHome() throws PTZException
-    {
+    private boolean moveToHome() throws PTZException {
         String homeUrl = URL + '/' + cameraId + "/ptz/home";
 
-        if(API.hasUserKeyPair())
-        {
-            try
-            {
+        if (API.hasUserKeyPair()) {
+            try {
                 HttpResponse<InputStream> response = Unirest.post(homeUrl).queryString(API.userKeyPairMap()).asBinary();
-                if (response.getStatus() == EvercamObject.CODE_CREATE)
-                {
+                if (response.getStatus() == EvercamObject.CODE_CREATE) {
                     return true;
-                }
-                else
-                {
+                } else {
                     throw new PTZException("Home move error with response code: " + response.getStatus());
                 }
-            }
-            catch (EvercamException e)
-            {
+            } catch (EvercamException e) {
+                throw new PTZException(e);
+            } catch (UnirestException e) {
                 throw new PTZException(e);
             }
-            catch (UnirestException e)
-            {
-                throw new PTZException(e);
-            }
-        }
-        else
-        {
+        } else {
             throw new PTZException(EvercamException.MSG_USER_API_KEY_REQUIRED);
         }
     }

@@ -5,8 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public abstract class EvercamObject
-{
+public abstract class EvercamObject {
     static final int CODE_OK = 200;
     static final int CODE_CREATE = 201;
     static final int CODE_UNAUTHORISED = 401;
@@ -22,24 +21,18 @@ public abstract class EvercamObject
 
     JSONObject jsonObject;
 
-    protected JSONObject getJsonObjectByString(String key) throws EvercamException
-    {
-        try
-        {
+    protected JSONObject getJsonObjectByString(String key) throws EvercamException {
+        try {
             return jsonObject.getJSONObject(key);
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             throw new EvercamException(e);
         }
     }
 
-    protected JSONArray getJsonArrayByString(String key) throws EvercamException
-    {
-        try
-        {
+    protected JSONArray getJsonArrayByString(String key) throws EvercamException {
+        try {
             return jsonObject.getJSONArray(key);
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             throw new EvercamException(e);
         }
     }
@@ -47,32 +40,24 @@ public abstract class EvercamObject
     /**
      * Retrieve string from jsonObject and return a valid string or an empty string.
      */
-    protected String getStringNotNull(String key)
-    {
-        try
-        {
+    protected String getStringNotNull(String key) {
+        try {
             String jsonString = jsonObject.getString(key);
-            if (!jsonString.equals("null"))
-            {
+            if (!jsonString.equals("null")) {
                 return jsonString;
             }
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             //Ignore exception, return empty string
         }
         return "";
     }
 
-    public static Right getRightsFrom(CameraShareInterface shareInterface)
-    {
+    public static Right getRightsFrom(CameraShareInterface shareInterface) {
         Right rights = null;
 
-        if(shareInterface instanceof CameraShare)
-        {
+        if (shareInterface instanceof CameraShare) {
             rights = ((CameraShare) shareInterface).getRights();
-        }
-        else if(shareInterface instanceof CameraShareRequest)
-        {
+        } else if (shareInterface instanceof CameraShareRequest) {
             rights = ((CameraShareRequest) shareInterface).getRights();
         }
 
@@ -80,21 +65,16 @@ public abstract class EvercamObject
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("<%s@%s id=%s> JSON: %s", this.getClass().getName(), System.identityHashCode(this), this.getIdString(), jsonObject.toString());
     }
 
-    private Object getIdString()
-    {
-        try
-        {
+    private Object getIdString() {
+        try {
             return jsonObject.getString("id");
-        } catch (SecurityException e)
-        {
+        } catch (SecurityException e) {
             return "";
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             return "";
         }
     }

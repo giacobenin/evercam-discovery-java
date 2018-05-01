@@ -16,8 +16,7 @@ public class EvercamQuery {
     /**
      * Query Evercam API to get camera vendor by MAC address.
      *
-     * @param macAddress
-     *            Full MAC address read from device.
+     * @param macAddress Full MAC address read from device.
      */
     public static Vendor getCameraVendorByMac(String macAddress) {
         String submac = macAddress.substring(0, 8).toLowerCase(Locale.UK);
@@ -43,11 +42,9 @@ public class EvercamQuery {
     }
 
     /**
-     * @param vendor
-     *            Camera vendor returned from Evercam
+     * @param vendor Camera vendor returned from Evercam
      * @return the default username of the specified vendor
-     * @throws EvercamException
-     *             if no default values associated with this vendor
+     * @throws EvercamException if no default values associated with this vendor
      */
     @Deprecated
     public static String getDefaultUsernameByVendor(Vendor vendor)
@@ -59,11 +56,9 @@ public class EvercamQuery {
     }
 
     /**
-     * @param vendor
-     *            Camera vendor returned from Evercam
+     * @param vendor Camera vendor returned from Evercam
      * @return the default password of the specified vendor
-     * @throws EvercamException
-     *             if no default values associated with this vendor
+     * @throws EvercamException if no default values associated with this vendor
      */
     @Deprecated
     public static String getDefaultPasswordByVendor(Vendor vendor)
@@ -75,11 +70,9 @@ public class EvercamQuery {
     }
 
     /**
-     * @param vendor
-     *            Camera vendor returned from Evercam
+     * @param vendor Camera vendor returned from Evercam
      * @return the default JPG snapshot URL of the specified vendor
-     * @throws EvercamException
-     *             if no default values associated with this vendor
+     * @throws EvercamException if no default values associated with this vendor
      */
     @Deprecated
     public static String getDefaultJpgUrlByVendor(Vendor vendor)
@@ -90,11 +83,9 @@ public class EvercamQuery {
     }
 
     /**
-     * @param vendor
-     *            Camera vendor returned from Evercam
+     * @param vendor Camera vendor returned from Evercam
      * @return the default h264 stream URL of the specified vendor
-     * @throws EvercamException
-     *             if no default values associated with this vendor
+     * @throws EvercamException if no default values associated with this vendor
      */
     @Deprecated
     public static String getDefaultH264UrlByVendor(Vendor vendor)
@@ -107,14 +98,12 @@ public class EvercamQuery {
     /**
      * Retrieve thumbnail URL by specifying camera vendor and model
      *
-     * @param vendorId
-     *            camera vendor ID for Evercam
-     * @param modelId
-     *            camera model ID for Evercam
+     * @param vendorId camera vendor ID for Evercam
+     * @param modelId  camera model ID for Evercam
      * @return If no image associated with the specified model, return logo URL
-     *         for the specified vendor
+     * for the specified vendor
      * @deprecated it's not recommend to use the vendor logo as thumbnail if
-     *             model </br> does not exist.
+     * model </br> does not exist.
      */
     @Deprecated
     public static String getThumbnailUrlFor(String vendorId, String modelId) {
@@ -142,10 +131,8 @@ public class EvercamQuery {
      * model & vendor thumbnail URLs) for the specified camera by sending API
      * requests
      *
-     * @param discoveredCamera
-     *            the discovered camera object, identification must </br> has
-     *            been finished
-     *
+     * @param discoveredCamera the discovered camera object, identification must </br> has
+     *                         been finished
      * @return the camera object with defaults info
      */
     public static DiscoveredCamera fillDefaults(

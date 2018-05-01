@@ -13,28 +13,28 @@ public class NatMapEntry {
     private ActionResponse actionResponse;
 
     public NatMapEntry(ActionResponse actionResponse) {
-	this.actionResponse = actionResponse;
+        this.actionResponse = actionResponse;
     }
 
     public String getIpAddress() {
-	return actionResponse.getOutActionArgumentValue(KEY_INTERNAL_CLIENT);
+        return actionResponse.getOutActionArgumentValue(KEY_INTERNAL_CLIENT);
     }
 
     public int getInternalPort() {
-	return Integer.parseInt(actionResponse
-		.getOutActionArgumentValue(KEY_INTERNAL_PORT));
+        return Integer.parseInt(actionResponse
+                .getOutActionArgumentValue(KEY_INTERNAL_PORT));
     }
 
     public int getExternalPort() {
-	return Integer.parseInt(actionResponse
-		.getOutActionArgumentValue(KEY_EXTERNAL_PORT));
+        return Integer.parseInt(actionResponse
+                .getOutActionArgumentValue(KEY_EXTERNAL_PORT));
     }
 
     public String getDescription() {
-	return actionResponse.getOutActionArgumentValue(KEY_DESCRIPTION);
+        return actionResponse.getOutActionArgumentValue(KEY_DESCRIPTION);
     }
 
     public String getProtocal() {
-	return actionResponse.getOutActionArgumentValue(KEY_PROTOCOL);
+        return actionResponse.getOutActionArgumentValue(KEY_PROTOCOL);
     }
 }

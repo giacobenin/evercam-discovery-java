@@ -13,55 +13,55 @@ public class Device implements Serializable, DeviceInterface {
     protected String publicVendor = "";
 
     public Device(String ip) {
-	this.ip = ip;
+        this.ip = ip;
     }
 
     public String getIP() {
-	return ip;
+        return ip;
     }
 
     public void setIP(String ip) {
-	this.ip = ip;
+        this.ip = ip;
     }
 
     public String getMAC() {
-	return mac;
+        return mac;
     }
 
     public void setMAC(String mac) {
-	this.mac = mac;
+        this.mac = mac;
     }
 
     public String getExternalIp() {
-	return externalIp;
+        return externalIp;
     }
 
     public void setExternalIp(String externalIp) {
-	this.externalIp = externalIp;
+        this.externalIp = externalIp;
     }
 
     public void setPublicVendor(String publicVendor) {
-	this.publicVendor = publicVendor;
+        this.publicVendor = publicVendor;
     }
 
     public String getPublicVendor() {
-	return publicVendor;
+        return publicVendor;
     }
 
     @Override
     public String toString() {
-	return "Device [ip=" + ip + ", mac=" + mac + ", externalIp="
-		+ externalIp + ", publicVendor=" + publicVendor + "]";
+        return "Device [ip=" + ip + ", mac=" + mac + ", externalIp="
+                + externalIp + ", publicVendor=" + publicVendor + "]";
     }
 
     public JSONObject toJsonObject() {
-	LinkedHashMap<String, Object> jsonOrderedMap = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> jsonOrderedMap = new LinkedHashMap<String, Object>();
 
-	jsonOrderedMap.put("lan_ip", getIP());
-	jsonOrderedMap.put("mac_address", getMAC());
-	jsonOrderedMap.put("wan_ip", getExternalIp());
-	jsonOrderedMap.put("public_vendor", getPublicVendor());
+        jsonOrderedMap.put("lan_ip", getIP());
+        jsonOrderedMap.put("mac_address", getMAC());
+        jsonOrderedMap.put("wan_ip", getExternalIp());
+        jsonOrderedMap.put("public_vendor", getPublicVendor());
 
-	return new JSONObject(jsonOrderedMap);
+        return new JSONObject(jsonOrderedMap);
     }
 }

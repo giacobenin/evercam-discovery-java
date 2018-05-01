@@ -1,7 +1,6 @@
 package io.evercam;
 
-public class PTZRelativeBuilder
-{
+public class PTZRelativeBuilder {
     private final String cameraId;
     private int relativeUp = 0;
     private int relativeDown = 0;
@@ -9,73 +8,60 @@ public class PTZRelativeBuilder
     private int relativeRight = 0;
     private int relativeZoom = 0;
 
-    public PTZRelativeBuilder(String cameraId)
-    {
+    public PTZRelativeBuilder(String cameraId) {
         this.cameraId = cameraId;
     }
 
-    public PTZRelativeBuilder up(int value)
-    {
+    public PTZRelativeBuilder up(int value) {
         relativeUp = value;
         return this;
     }
 
-    public PTZRelativeBuilder down(int value)
-    {
+    public PTZRelativeBuilder down(int value) {
         relativeDown = value;
         return this;
     }
 
-    public PTZRelativeBuilder left(int value)
-    {
+    public PTZRelativeBuilder left(int value) {
         relativeLeft = value;
         return this;
     }
 
-    public PTZRelativeBuilder right(int value)
-    {
+    public PTZRelativeBuilder right(int value) {
         relativeRight = value;
         return this;
     }
 
-    public PTZRelativeBuilder zoom(int value)
-    {
+    public PTZRelativeBuilder zoom(int value) {
         relativeZoom = value;
         return this;
     }
 
-    public PTZRelative build()
-    {
+    public PTZRelative build() {
         return new PTZRelative(this);
     }
 
-    public String getCameraId()
-    {
+    public String getCameraId() {
         return cameraId;
     }
 
-    public int getRelativeUp()
-    {
+    public int getRelativeUp() {
         return relativeUp;
     }
 
-    public int getRelativeDown()
-    {
+    public int getRelativeDown() {
         return relativeDown;
     }
 
-    public int getRelativeLeft()
-    {
+    public int getRelativeLeft() {
         return relativeLeft;
     }
 
-    public int getRelativeRight()
-    {
+    public int getRelativeRight() {
         return relativeRight;
     }
 
-    public int getRelativeZoom()
-    {
+    public int getRelativeZoom() {
         return relativeZoom;
     }
 }

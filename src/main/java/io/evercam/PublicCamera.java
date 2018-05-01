@@ -57,31 +57,22 @@ public class PublicCamera extends EvercamObject {
      * @param nearTo an address or 'longitude, latitude' points. Can be null then IP address will be used
      * @return the nearest camera object with thumbnail data
      */
-    public static InputStream getNearestJpg(String nearTo) throws EvercamException
-    {
-        try
-        {
+    public static InputStream getNearestJpg(String nearTo) throws EvercamException {
+        try {
             HttpResponse response;
-            if(nearTo == null)
-            {
+            if (nearTo == null) {
                 response = Unirest.get(URL + "/nearest.jpg").header("accept", "application/json").asBinary();
-            }
-            else
-            {
+            } else {
                 response = Unirest.get(URL + "/nearest.jpg").queryString("near_to", nearTo).header("accept",
                         "application/json").asBinary();
             }
 
-            if (response.getStatus() == CODE_OK)
-            {
+            if (response.getStatus() == CODE_OK) {
                 return response.getRawBody();
-            }
-            else
-            {
+            } else {
                 return null;
             }
-        } catch (UnirestException e)
-        {
+        } catch (UnirestException e) {
             throw new EvercamException(e);
         }
     }
