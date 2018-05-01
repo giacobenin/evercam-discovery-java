@@ -106,7 +106,7 @@ public class Vendor extends EvercamObject {
     }
 
     private static ArrayList<Vendor> getVendors(String url) throws EvercamException {
-        ArrayList<Vendor> vendorList = new ArrayList<Vendor>();
+        ArrayList<Vendor> vendorList = new ArrayList<>();
         HttpRequest request = Unirest.get(url);
 
         try {
