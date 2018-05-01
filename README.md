@@ -15,7 +15,9 @@ Build an executable jar file contaning all the dependencies by `./gradlew fatjar
 ## Usage
 Directly add the jar file to the classpath, Java doc will be associated with it as well. (The default jar file does not contain dependencies)
 If you just want to run the discovery app run the command that follows:
-```java -jar evercam-discovery-all-VERSION.jar --verbose -ip YOUR_ROUTER'S_IP -m YOUR_NETWORK_MASK```
+```
+java -jar evercam-discovery-all-VERSION.jar --verbose -ip YOUR_ROUTER'S_IP -m YOUR_NETWORK_MASK
+```
 
 ## Examples
 Scan local network, find camera devices with options of including camera thumbnail and defaults or not, and return all discovered camera details(IP address, internal & external HTTP & RTSP ports, MAC address, vendor, model, thumbmnail, default username, password and URLs), currently only work for Android.
