@@ -1,5 +1,6 @@
 package io.evercam.network.discovery;
 
+import io.evercam.Platform;
 import io.evercam.network.Constants;
 
 import java.io.BufferedReader;
@@ -22,7 +23,7 @@ public class NetworkInfo {
 
     public static ArrayList<String> getNetworkInterfaceNames() {
         Enumeration<NetworkInterface> networkInterfaces = null;
-        ArrayList<String> interfaceNameArrayList = new ArrayList<String>();
+        ArrayList<String> interfaceNameArrayList = new ArrayList<>();
         try {
             networkInterfaces = NetworkInterface.getNetworkInterfaces();
             for (Enumeration<NetworkInterface> networkInterfaceEnum = networkInterfaces; networkInterfaces
@@ -193,23 +194,26 @@ public class NetworkInfo {
      * occurred.
      */
     // FIXME: netstat -rn doesn't work when Internet is not connected
-    public static String getLinuxRouterIp() {
+    public static String getRouterIp() {
         try {
             Process result = Runtime.getRuntime().exec("netstat -rn");
 
             BufferedReader output = new BufferedReader(new InputStreamReader(
                     result.getInputStream()));
 
-            String line = output.readLine();
+            String line = clean(output.readLine());
             while (line != null) {
                 if (line.startsWith("0.0.0.0")) {
                     break;
                 }
-                line = output.readLine();
+                line = clean(output.readLine());
             }
 
             StringTokenizer st = new StringTokenizer(line);
             st.nextToken();
+            if (Platform.isWindows()) {
+                st.nextToken();
+            }
             return st.nextToken();
         } catch (Exception e) {
             if (Constants.ENABLE_LOGGING) {
@@ -229,22 +233,40 @@ public class NetworkInfo {
      * Return subnet mask in Linux system. Return empty string if exception
      * occurred.
      */
-    public static String getLinuxSubnetMask() {
+    public static String getSubnetMask() {
         try {
             Process result = Runtime.getRuntime().exec("netstat -rn");
 
             BufferedReader output = new BufferedReader(new InputStreamReader(
                     result.getInputStream()));
 
-            String line = output.readLine();
+            String line = clean(output.readLine());
             while (line != null) {
-                StringTokenizer st = new StringTokenizer(line);
-                st.nextToken();
-                String gateway = st.nextToken();
-                if (gateway.equals("0.0.0.0")) {
-                    return st.nextToken();
+                if (!line.isEmpty()) {
+                    StringTokenizer st = new StringTokenizer(line);
+                    st.nextToken();
+                    String netmask = "";
+                    String gateway = "";
+                    if (Platform.isWindows()) {
+                        if(st.hasMoreElements()) {
+                            netmask = st.nextToken();
+                        }
+                        if(st.hasMoreElements()) {
+                            gateway = st.nextToken();
+                        }
+                    } else {
+                        if(st.hasMoreElements()) {
+                            gateway = st.nextToken();
+                        }
+                        if(st.hasMoreElements()) {
+                            netmask = st.nextToken();
+                        }
+                    }
+                    if (gateway.equals("0.0.0.0")) {
+                        return netmask;
+                    }
                 }
-                line = output.readLine();
+                line = clean(output.readLine());
             }
         } catch (Exception e) {
             if (Constants.ENABLE_LOGGING) {
@@ -252,5 +274,11 @@ public class NetworkInfo {
             }
         }
         return "";
+    }
+
+    private static String clean(String s) {
+        return s.replaceAll("\t", " ")      // tab to space
+                .replaceAll("\\s+", " ")    // remove multiple spaces
+                .trim();                           // trim spaces
     }
 }
