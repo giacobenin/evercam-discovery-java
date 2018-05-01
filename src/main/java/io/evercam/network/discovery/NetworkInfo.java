@@ -5,22 +5,17 @@ import io.evercam.network.Constants;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.Inet4Address;
-import java.net.Inet6Address;
-import java.net.InetAddress;
-import java.net.InterfaceAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.StringTokenizer;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.CoreConnectionPNames;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
 public class NetworkInfo {
@@ -164,26 +159,26 @@ public class NetworkInfo {
 
     public static String getExternalIP() {
         String extIP = "";
-        HttpClient httpclient = new DefaultHttpClient();
-        httpclient.getParams().setIntParameter(CoreConnectionPNames.SO_TIMEOUT,
-                2000);
-        httpclient.getParams().setIntParameter(
-                CoreConnectionPNames.CONNECTION_TIMEOUT, 2000);
-        try {
+        try (CloseableHttpClient httpclient = HttpClientBuilder.create().build()) {
+            RequestConfig requestConfig = RequestConfig.copy(RequestConfig.DEFAULT)
+                    .setSocketTimeout(2000)
+                    .setConnectTimeout(2000)
+                    .setConnectionRequestTimeout(5000)
+                    .build();
+
             HttpGet httpget = new HttpGet(Constants.URL_GET_EXTERNAL_ADDR);
-            HttpResponse response;
-            response = httpclient.execute(httpget);
+            httpget.setConfig(requestConfig);
+            HttpResponse response = httpclient.execute(httpget);
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 extIP = EntityUtils.toString(entity);
             }
-        } catch (IOException e) {
+        }catch (IOException e) {
             if (Constants.ENABLE_LOGGING) {
                 e.printStackTrace();
             }
-        } finally {
-            httpclient.getConnectionManager().shutdown();
         }
+
         return (extIP == "" ? "" : extIP.replace("\n", ""));
     }
 
