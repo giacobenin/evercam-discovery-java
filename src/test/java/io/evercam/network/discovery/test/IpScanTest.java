@@ -21,48 +21,48 @@ public class IpScanTest {
 
     @Test
     public void testScanSingleIp() {
-	IpScan ipScan = new IpScan(new ScanResult() {
-	    @Override
-	    public void onActiveIp(String ip) {
-		ipList.add(ip);
-	    }
+        IpScan ipScan = new IpScan(new ScanResult() {
+            @Override
+            public void onActiveIp(String ip) {
+                ipList.add(ip);
+            }
 
-	    @Override
-	    public void onIpScanned(String ip) {
-		// TODO Auto-generated method stub
-	    }
-	});
-	ipScan.scanSingleIp(TEST_ACTIVE_IP, 3000);
-	assertEquals(TEST_ACTIVE_IP, ipList.get(0));
-	ipList.clear();
+            @Override
+            public void onIpScanned(String ip) {
+                // TODO Auto-generated method stub
+            }
+        });
+        ipScan.scanSingleIp(TEST_ACTIVE_IP, 3000);
+        assertEquals(TEST_ACTIVE_IP, ipList.get(0));
+        ipList.clear();
     }
 
     @Test
     public void testScanAllIp() throws Exception {
-	IpScan ipScan = new IpScan(new ScanResult() {
-	    @Override
-	    public void onActiveIp(String ip) {
-		ipList.add(ip);
-		System.out.println("IP added :" + ip);
-	    }
+        IpScan ipScan = new IpScan(new ScanResult() {
+            @Override
+            public void onActiveIp(String ip) {
+                ipList.add(ip);
+                System.out.println("IP added :" + ip);
+            }
 
-	    @Override
-	    public void onIpScanned(String ip) {
-		// TODO Auto-generated method stub
-	    }
-	});
-	// ipScan.scanAll(new
-	// ScanRange(NetworkInfo.getNetworkInterfaceByIp(TEST_IP)));
-	ipScan.scanAll(new ScanRange(TEST_IP, TEST_NET_MASK));
-	System.out.println(ipList.size());
-	assertTrue(ipList.size() > 5);
-	ipList.clear();
+            @Override
+            public void onIpScanned(String ip) {
+                // TODO Auto-generated method stub
+            }
+        });
+        // ipScan.scanAll(new
+        // ScanRange(NetworkInfo.getNetworkInterfaceByIp(TEST_IP)));
+        ipScan.scanAll(new ScanRange(TEST_IP, TEST_NET_MASK));
+        System.out.println(ipList.size());
+        assertTrue(ipList.size() > 5);
+        ipList.clear();
     }
 
     @Test
     public void testScanRange() throws Exception {
-	ScanRange scanRange = new ScanRange(TEST_IP, TEST_NET_MASK);
-	assertTrue(scanRange.containIp(TEST_ACTIVE_IP));
-	assertFalse(scanRange.containIp("192.168.1.6"));
+        ScanRange scanRange = new ScanRange(TEST_IP, TEST_NET_MASK);
+        assertTrue(scanRange.containIp(TEST_ACTIVE_IP));
+        assertFalse(scanRange.containIp("192.168.1.6"));
     }
 }

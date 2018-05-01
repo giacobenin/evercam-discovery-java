@@ -13,8 +13,8 @@ public class ScanRangeTest {
 
     @Test
     public void testSetRangeByIpAndMask() throws Exception {
-	ScanRange scanRange = new ScanRange(TEST_IP, TEST_MASK);
-	assertEquals(TEST_RANGE_SIZE, scanRange.size());
+        ScanRange scanRange = new ScanRange(TEST_IP, TEST_MASK);
+        assertEquals(TEST_RANGE_SIZE, scanRange.size());
     }
 
     // @Test

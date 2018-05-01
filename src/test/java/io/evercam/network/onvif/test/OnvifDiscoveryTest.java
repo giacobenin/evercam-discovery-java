@@ -12,14 +12,14 @@ import org.junit.Test;
 public class OnvifDiscoveryTest {
     @Test
     public void testOnvifProbe() {
-	ArrayList<DiscoveredCamera> cameraList = new OnvifDiscovery() {
+        ArrayList<DiscoveredCamera> cameraList = new OnvifDiscovery() {
 
-	    @Override
-	    public void onActiveOnvifDevice(DiscoveredCamera discoveredCamera) {
-		System.out.println("ONVIF camera discovered: "
-			+ discoveredCamera.toString());
-	    }
-	}.probe();
-	assertEquals(2, cameraList.size());
+            @Override
+            public void onActiveOnvifDevice(DiscoveredCamera discoveredCamera) {
+                System.out.println("ONVIF camera discovered: "
+                        + discoveredCamera.toString());
+            }
+        }.probe();
+        assertEquals(2, cameraList.size());
     }
 }
