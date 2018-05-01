@@ -1,6 +1,6 @@
 # Network Discovery Library in Java
 
-A network scanning library in Java for discovering IP camras, includes IP scan, port scan, UPnP device discovery, ONVIF discovery and additional camera discovery for thumbnail and defaults(username, password, URLs). See the [flow diagram](#flow-diagram) for more logical details.
+A network scanning library in Java for discovering IP cameras, includes IP scan, port scan, UPnP device discovery, ONVIF discovery and additional camera discovery for thumbnail and defaults (username, password, URLs). See the [flow diagram](#flow-diagram) for more logical details.
 
 ## Help make it better
 
