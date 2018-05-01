@@ -5,13 +5,17 @@ A network scanning library in Java for discovering IP cameras, includes IP scan,
 ## Help make it better
 
 The entire Evercam codebase is open source, see details: http://www.evercam.io/open-source. We'd love to see your pull requests!
-
 For any bugs and discussions, please use [Github Issues](https://github.com/evercam/evercam-discovery-java/issues).
-
 Any questions or suggestions around Evercam, drop us a line: http://www.evercam.io/contact
+
+## Build
+Build evercam-discovery jar file by `./gradlew build`.
+Build an executable jar file contaning all the dependencies by `./gradlew fatjar`.
 
 ## Usage
 Directly add the jar file to the classpath, Java doc will be associated with it as well. (The default jar file does not contain dependencies)
+If you just want to run the discovery app run the command that follows:
+java -jar evercam-discovery-all-VERSION.jar --verbose -ip YOUR_ROUTER'S_IP -m YOUR_NETWORK_MASK
 
 ## Examples
 Scan local network, find camera devices with options of including camera thumbnail and defaults or not, and return all discovered camera details(IP address, internal & external HTTP & RTSP ports, MAC address, vendor, model, thumbmnail, default username, password and URLs), currently only work for Android.
