@@ -42,9 +42,9 @@ public class Main {
         }
 
         if (ip.isEmpty())
-            ip = NetworkInfo.getLinuxRouterIp();
+            ip = NetworkInfo.getRouterIp();
         if (subnetMask.isEmpty())
-            subnetMask = NetworkInfo.getLinuxSubnetMask();
+            subnetMask = NetworkInfo.getSubnetMask();
 
         // String deviceIp = "";
         // String subnetMask = "";
